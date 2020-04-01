@@ -24,11 +24,11 @@ public class ConnexionBD {
 					Class.forName(driver);
 					
 					Connection conn = DriverManager.getConnection(url, username, password);
-						System.out.println("connected");
+						//System.out.println("connected");
 						return conn;
 						
 				}catch (Exception e) {
-				System.out.println (e);
+				//System.out.println (e);
 				
 					return null;
 		}

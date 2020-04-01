@@ -1,10 +1,15 @@
 package baseFlotte;
 
+import java.sql.Date;
+
 public class Vehicule {
+	private String numImmat;
+	private String modele;
+	private String statut;
+	private Date dateEntree;
+	private Date dateSortie;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	
 	}
 
-}
+

@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class Register  {
 
@@ -57,10 +58,10 @@ public class Register  {
 		frame.setBounds(100, 100, 450, 504);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		frame.setSize(new Dimension(500,500));
+		frame.setSize(new Dimension(679, 589));
 		
 		JLabel Register = new JLabel("Page d'enregistrement");
-		Register.setBounds(96, 0, 224, 60);
+		Register.setBounds(202, -2, 224, 60);
 		Register.setForeground(Color.BLUE);
 		Register.setFont(new Font("Times New Roman", Font.BOLD, 22));
 		Register.setBackground(Color.BLUE);
@@ -70,36 +71,36 @@ public class Register  {
 		nom.setForeground(Color.BLACK);
 		nom.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		nom.setBackground(Color.WHITE);
-		nom.setBounds(25, 77, 105, 23);
+		nom.setBounds(91, 109, 105, 23);
 		frame.getContentPane().add(nom);
 		
 		CaseNomR = new JTextField();
 		CaseNomR.setColumns(10);
-		CaseNomR.setBounds(191, 74, 146, 26);
+		CaseNomR.setBounds(289, 109, 224, 26);
 		frame.getContentPane().add(CaseNomR);
 		
 		JLabel prenom = new JLabel("Prenom");
 		prenom.setForeground(Color.BLACK);
 		prenom.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		prenom.setBackground(Color.WHITE);
-		prenom.setBounds(25, 138, 105, 23);
+		prenom.setBounds(91, 167, 105, 23);
 		frame.getContentPane().add(prenom);
 		
 		JLabel UserNameR = new JLabel("UserName");
 		UserNameR.setForeground(Color.BLACK);
 		UserNameR.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		UserNameR.setBackground(Color.WHITE);
-		UserNameR.setBounds(25, 194, 105, 23);
+		UserNameR.setBounds(91, 238, 105, 23);
 		frame.getContentPane().add(UserNameR);
 		
 		CasePrenomR = new JTextField();
 		CasePrenomR.setColumns(10);
-		CasePrenomR.setBounds(191, 135, 146, 26);
+		CasePrenomR.setBounds(289, 164, 224, 26);
 		frame.getContentPane().add(CasePrenomR);
 		
 		CaseUserNameR = new JTextField();
 		CaseUserNameR.setColumns(10);
-		CaseUserNameR.setBounds(191, 191, 146, 26);
+		CaseUserNameR.setBounds(289, 235, 224, 26);
 		frame.getContentPane().add(CaseUserNameR);
 		
 		JLabel Validated = new JLabel("Validated account"); // doit être placé avant le bouton pour qu'il l'active
@@ -138,7 +139,7 @@ public class Register  {
 		
 		btnCreate.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		btnCreate.setBackground(Color.CYAN);
-		btnCreate.setBounds(267, 374, 105, 29);
+		btnCreate.setBounds(476, 446, 105, 29);
 		frame.getContentPane().add(btnCreate);
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -152,44 +153,37 @@ public class Register  {
 		});
 		btnCancel.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		btnCancel.setBackground(Color.RED);
-		btnCancel.setBounds(73, 374, 103, 29);
+		btnCancel.setBounds(105, 446, 103, 29);
 		frame.getContentPane().add(btnCancel);
 		
 		JLabel MDPReg = new JLabel("MotDePasse");
 		MDPReg.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		MDPReg.setBackground(Color.WHITE);
-		MDPReg.setBounds(25, 255, 120, 20);
+		MDPReg.setBounds(88, 289, 120, 20);
 		frame.getContentPane().add(MDPReg);
 		
 		JLabel MPD2Reg = new JLabel("Confirmer MDP");
 		MPD2Reg.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		MPD2Reg.setBackground(Color.WHITE);
-		MPD2Reg.setBounds(25, 310, 151, 20);
+		MPD2Reg.setBounds(91, 348, 151, 20);
 		frame.getContentPane().add(MPD2Reg);
 		
 		CaseMDPR = new JPasswordField();
-		CaseMDPR.setBounds(191, 251, 146, 26);
+		CaseMDPR.setBounds(289, 285, 224, 26);
 		frame.getContentPane().add(CaseMDPR);
 		
 		CaseMDP2R = new JPasswordField();
-		CaseMDP2R.setBounds(191, 306, 146, 26);
+		CaseMDP2R.setBounds(289, 344, 224, 26);
 		frame.getContentPane().add(CaseMDP2R);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(Register.class.getResource("/icons/00rwOTBCG9wGtuLysGi7UEh8oGSSK4Q3T2sZ2aeS.jpeg")));
+		lblNewLabel.setBounds(0, -1, 673, 550);
+		frame.getContentPane().add(lblNewLabel);
 		
 		
 		
 		frame.setVisible(true); // la page register devient visible quand tout s'éxécute
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

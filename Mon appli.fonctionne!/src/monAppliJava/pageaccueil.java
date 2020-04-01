@@ -6,7 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-
+import baseFlotte.Employe;
+import baseFlotte.Jemeconnecte;
 import connexion.ConnexionBD;
 
 import javax.swing.JPasswordField;
@@ -22,6 +23,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.ImageIcon;
 
 public class pageaccueil {
 		
@@ -57,21 +59,21 @@ public class pageaccueil {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(200, 200, 455, 471);
+		frame.setBounds(200, 200, 544, 504);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel Error = new JLabel("Erreur de connexion");
 		Error.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		Error.setForeground(Color.RED);
-		Error.setBounds(0, 98, 193, 20);
+		Error.setBounds(0, 59, 193, 20);
 		frame.getContentPane().add(Error);
 		Error.setVisible(false);
 		
 		JLabel Success = new JLabel("connected success");
 		Success.setForeground(Color.GREEN);
 		Success.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		Success.setBounds(72, 77, 183, 20);
+		Success.setBounds(15, 41, 183, 20);
 		frame.getContentPane().add(Success);
 		Success.setVisible(false);
 		
@@ -85,22 +87,22 @@ public class pageaccueil {
 		textUserName.setForeground(Color.BLACK);
 		textUserName.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		textUserName.setBackground(Color.WHITE);
-		textUserName.setBounds(50, 161, 105, 23);
+		textUserName.setBounds(50, 118, 105, 23);
 		frame.getContentPane().add(textUserName);
 		
 		JLabel textMotDePasse = new JLabel("MotDePasse");
 		textMotDePasse.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		textMotDePasse.setBackground(Color.WHITE);
-		textMotDePasse.setBounds(50, 218, 120, 20);
+		textMotDePasse.setBounds(34, 186, 120, 20);
 		frame.getContentPane().add(textMotDePasse);
 		
 		CaseUserName = new JTextField();
-		CaseUserName.setBounds(212, 158, 146, 26);
+		CaseUserName.setBounds(228, 115, 212, 26);
 		frame.getContentPane().add(CaseUserName);
 		CaseUserName.setColumns(10);
 		
 		CaseMDP = new JPasswordField();
-		CaseMDP.setBounds(212, 214, 146, 26);
+		CaseMDP.setBounds(222, 186, 212, 26);
 		frame.getContentPane().add(CaseMDP);
 		
 		JButton btnLogin = new JButton("Login");
@@ -109,40 +111,54 @@ public class pageaccueil {
 			public void actionPerformed(ActionEvent arg0) {
 				String Name = CaseUserName.getText();
 				char[] PassWord = CaseMDP.getPassword();
-				System.out.println(Name);
+				/*System.out.println(Name);
 				System.out.println(PassWord);
-				System.out.println(new String(PassWord));
+				System.out.println(new String(PassWord));*/
 				Connection BdConnexion= null;
+				Employe E= new Employe();
 				
 				try {
 					
 		            BdConnexion = ConnexionBD.getConnection();
 		            Statement statement = BdConnexion.createStatement();// permet d'éxécuter une requête
-		            ResultSet resultat = statement.executeQuery( "SELECT idemploye,Matricule,Nom,Prenom,NumTel,Fonction,NumPermis FROM employe WHERE UserName='" + Name + "' AND MotDePasse='" + new String(PassWord) + "';");
-		            System.out.println(resultat.getFetchSize());
+		            ResultSet resultat = statement.executeQuery( "SELECT idemploye,Matricule,Nom,Prenom,NumTel,Fonction,NumPermis FROM employe WHERE UserName='" + Name + "' AND MotDePasse='" + new String(PassWord) + "';");		            
+		            // System.out.println(resultat.getFetchSize());
 		            resultat.last();// on se place à la fin du resultset
-		            if (resultat.getRow()==0) {//getRow pour compter, si = 0 alors il n'a pas trouvé d'élément donc une eereur s'affiche
+		            if (resultat.getRow()==0) {//getRow pour compter, si = 0 alors il n'a pas trouvé d'élément donc une ereur s'affiche
 		            	Error.setVisible(true);
 		            }
+		            
 		            else {
 		            	Success.setVisible(true);
 		            }
+		            
 		            resultat.first();// on retourne au début du resultset
-		            while ( resultat.next() ) { //on passe à l'étape suivante
-		                String idUtilisateur = resultat.getString( "idemploye" );
-		                String matriculeEmploye = resultat.getString( "Matricule" );
+		            System.out.println("avant");
+		            //arraylist<v> tttt= new ...;
+		           
+		            if (resultat.getRow()==1) {		
+		            	System.out.println("après");
+		              //on passe à l'étape suivante		            	
+		                String matriculeEmploye = resultat.getString( "Matricule" );	
+		                System.out.println(matriculeEmploye);
 		                String nomEmploye = resultat.getString( "Nom" );
+		                System.out.println(nomEmploye);
 		                String prenomEmploye = resultat.getString( "Prenom" );
 		                String numTelEmploye = resultat.getString( "NumTel" );
 		                String fonctionEmploye = resultat.getString( "Fonction" );
-		                String numPermisEmploye = resultat.getString( "NumPermis" );  	
-		                
-		            }
-		             
-		 
+		                String numPermisEmploye = resultat.getString( "NumPermis" );  
+	                	E= new Employe (matriculeEmploye,nomEmploye,prenomEmploye,numTelEmploye,fonctionEmploye,
+		                			numPermisEmploye);
+	                	System.out.println(E.getNumPermis());
+	                	
+		                		//System.out.println(E.getNom());  				                	  
+		             } 		                	
+		            	
+		                //vehicle n = new v(....)
+		                //ttt.add(n)		            		        		 
 		        
 		        } catch (Exception e) {
-		        	System.out.println (e.getMessage());
+		        	//System.out.println (e.getMessage());
 					e.printStackTrace();
 				} finally {
 		            if ( BdConnexion != null )		            
@@ -152,11 +168,13 @@ public class pageaccueil {
 		                  
 		                }
 		        }
-				
+				new Jemeconnecte(E);
+            	//System.out.println(E.getNom());
+				frame.dispose();
 			}
 		});
 		btnLogin.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnLogin.setBounds(312, 290, 89, 29);
+		btnLogin.setBounds(389, 275, 89, 29);
 		frame.getContentPane().add(btnLogin);
 		
 		JButton btnReset = new JButton("Reset");
@@ -168,11 +186,10 @@ public class pageaccueil {
 				Error.setVisible(false);
 				Success.setVisible(false);
 			}	
-			
-			
+						
 		});
 		btnReset.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnReset.setBounds(172, 290, 97, 29);
+		btnReset.setBounds(224, 275, 97, 29);
 		frame.getContentPane().add(btnReset);
 		
 		JButton btnExit = new JButton("Exit");
@@ -184,7 +201,7 @@ public class pageaccueil {
 		});
 		btnExit.setBackground(Color.RED);
 		btnExit.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnExit.setBounds(40, 290, 81, 29);
+		btnExit.setBounds(50, 275, 81, 29);
 		frame.getContentPane().add(btnExit);
 		
 		JSeparator separator = new JSeparator();
@@ -203,17 +220,19 @@ public class pageaccueil {
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Register();
-				frame.dispose();
-				
-				
-			}
-			
+				frame.dispose();								
+			}			
 			
 		});
 		btnRegister.setBackground(Color.LIGHT_GRAY);
 		btnRegister.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
-		btnRegister.setBounds(126, 354, 193, 29);
+		btnRegister.setBounds(175, 400, 193, 29);
 		frame.getContentPane().add(btnRegister);	
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setIcon(new ImageIcon(pageaccueil.class.getResource("/icons/JiMIZ0LpuTRpT3WzDCa4lIYOPBFSBNya5VXmnya0.jpeg")));
+		lblNewLabel_1.setBounds(0, 0, 563, 509);
+		frame.getContentPane().add(lblNewLabel_1);
 		
 		frame.setVisible(true);// la page d'accueil se ferme quand on ouvre le register
 	}
