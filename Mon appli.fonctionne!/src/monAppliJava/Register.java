@@ -124,13 +124,10 @@ public class Register  {
 					System.out.println(UserName);
 					System.out.println(new String (PassWordR));
 					System.out.println(new String (PassWordR2));
-					
-				if (Nom.equals("toto") && Prenom.equals("tata") && UserName.equals("dragon")&& 
-					(new String (PassWordR).equals (new String (PassWordR2)))) {	
 					Validated.setVisible(true);		
 		
 			
-			}
+			
 
 			
 			}

@@ -25,17 +25,20 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import connexion.ConnexionBD;
 
 import java.awt.Dimension;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 public class GestionnaireFlotte {
 
 	private JFrame frame;
-	private JTable Vtable;
-	private Vehicule [] vehicules = new Vehicule[50];
+	private JTable Gtable;
+	
 
 	/**
 	 * Launch the application.
@@ -65,10 +68,11 @@ public class GestionnaireFlotte {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1155, 746);
+		frame.getContentPane().setBackground(new Color(204, 204, 255));
+		frame.setBounds(100, 100, 836, 572);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+		Connection BdConnexion= null;
 		/*
 		 
 		 */
@@ -83,24 +87,63 @@ public class GestionnaireFlotte {
 			    {"John", "Doe","Aviron", "aarr", "rrr"},
 			    {"Sue", "Black","Knitting", "aarr", "rrr"}
 			    
-			};
+			};		
 		
-		Vtable = new JTable(data, columnNames);
-		Vtable.setSize(new Dimension(10, 10));
-		Vtable.setFillsViewportHeight(true);
-		Vtable.setSelectionBackground(Color.GRAY);
-		Vtable.setForeground(Color.BLACK);
-		Vtable.setBackground(Color.LIGHT_GRAY);
-		Vtable.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
-		Vtable.setBounds(337, 204, 395, 247);
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(102, 204, 255));
+		panel.setForeground(new Color(0, 0, 0));
+		panel.setToolTipText("");
+		panel.setBounds(15, 10, 446, 47);
+		frame.getContentPane().add(panel);
 		
+		JLabel lblBienvenueDansVotre = new JLabel("Bienvenue dans votre espace administrateur");
+		lblBienvenueDansVotre.setForeground(new Color(0, 102, 102));
+		lblBienvenueDansVotre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		panel.add(lblBienvenueDansVotre);
 		
-		frame.getContentPane().add(Vtable);
-		Vtable.setVisible(true);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(102, 204, 255));
+		panel_1.setBounds(0, 457, 834, 67);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
 		
+		JButton btnAjouter = new JButton("Ajouter");
+		btnAjouter.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnAjouter.setBounds(57, 16, 121, 29);
+		panel_1.add(btnAjouter);
 		
+		JButton btnSuppimer = new JButton("Suppimer");
+		btnSuppimer.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnSuppimer.setBounds(346, 16, 130, 29);
+		panel_1.add(btnSuppimer);
 		
-		Connection BdConnexion= null;
+		JButton btnSeDeconnecter = new JButton("Se deconnecter");
+		btnSeDeconnecter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.setVisible(false);
+			}
+		});
+		btnSeDeconnecter.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnSeDeconnecter.setBounds(604, 16, 182, 29);
+		panel_1.add(btnSeDeconnecter);
+		
+		JPanel gestionRes = new JPanel();
+		gestionRes.setBounds(116, 120, 500, 184);
+		frame.getContentPane().add(gestionRes);
+		
+		JScrollPane scrollPane = new JScrollPane(Gtable);
+		scrollPane.setViewportBorder(null);
+		gestionRes.add(scrollPane);
+		
+		Gtable = new JTable(data, columnNames);		
+		gestionRes.add(Gtable);
+		Gtable.setFillsViewportHeight(true);
+		Gtable.setSelectionBackground(Color.GRAY);
+		Gtable.setForeground(Color.BLACK);
+		Gtable.setBackground(Color.LIGHT_GRAY);
+		Gtable.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
+		Gtable.setVisible(true);
+			
 		
 		try {
 			
@@ -128,13 +171,26 @@ public class GestionnaireFlotte {
                 String dateEntree = resultat.getString( "DateEntree" );
                 String dateSortie = resultat.getString( "DateSortie" ); 
                 	Vehicule v= new Vehicule ();
-                	
-                //vehicle n = new v(....)
-                //ttt.add(n)
+
             }
-             
- 
-        
+            String [][] tab = new String [3][6];
+            if(resultat.next()){
+            	tab [0][1]= resultat.getString ("NomEmploye");
+            	tab [0][2]= resultat.getString ("NumImmat");
+            	tab [0][3]= resultat.getString("Modele");
+            	tab [0][4]= resultat.getString("DateReserveh");
+            	tab [0][5]= resultat.getString("DateRetourveh");
+            	tab [0][6]= resultat.getString ("Statut");
+            }
+            
+    				new DefaultTableModel(
+    			tab,
+    			new String[] {
+    					"NomEmploye","NumImmat", "Modele", "DateReserveh", "DateRetourveh", "Statut"
+    			}
+    		)
+    		;
+                     
         } catch (Exception e) {
         	System.out.println (e.getMessage());
 			e.printStackTrace();
@@ -146,69 +202,6 @@ public class GestionnaireFlotte {
                   
                 }
 		
-		/*
-		 * 
-		 */
-		
-		JButton btnGererAffectationVehicule = new JButton("Gerer affectation vehicule");
-		btnGererAffectationVehicule.setBounds(65, 553, 273, 29);
-		btnGererAffectationVehicule.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnGererAffectationVehicule.setBackground(Color.WHITE);
-		frame.getContentPane().add(btnGererAffectationVehicule);
-		
-		JButton btnAjouterVehicule = new JButton("");
-		btnAjouterVehicule.setIcon(new ImageIcon(GestionnaireFlotte.class.getResource("/icons/iconfinder_Increase_40066.png")));
-		btnAjouterVehicule.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnAjouterVehicule.setBounds(90, 236, 32, 29);
-		btnAjouterVehicule.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnAjouterVehicule.setBackground(Color.WHITE);
-		frame.getContentPane().add(btnAjouterVehicule);
-		
-		JButton btnSupprimerVehicule = new JButton("");
-		btnSupprimerVehicule.setIcon(new ImageIcon(GestionnaireFlotte.class.getResource("/icons/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
-		btnSupprimerVehicule.setBounds(90, 315, 45, 29);
-		btnSupprimerVehicule.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnSupprimerVehicule.setBackground(Color.WHITE);
-		frame.getContentPane().add(btnSupprimerVehicule);
-		
-		JButton btnVoirReservation = new JButton("Voir reservation");
-		btnVoirReservation.setBounds(65, 618, 273, 29);
-		btnVoirReservation.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnVoirReservation.setBackground(Color.WHITE);
-		frame.getContentPane().add(btnVoirReservation);
-		
-		JLabel lblBonjourAdmin = new JLabel("Welcome Admin");
-		lblBonjourAdmin.setVerticalAlignment(SwingConstants.TOP);
-		lblBonjourAdmin.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBonjourAdmin.setFont(new Font("Times New Roman", Font.PLAIN, 49));
-		lblBonjourAdmin.setForeground(Color.BLUE);
-		lblBonjourAdmin.setBounds(284, 0, 570, 75);
-		frame.getContentPane().add(lblBonjourAdmin);
-		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(38, 112, 803, 2);
-		frame.getContentPane().add(separator);
-		
-		JLabel lblGestionVehicule = new JLabel("Gestion Vehicules");
-		lblGestionVehicule.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGestionVehicule.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-		lblGestionVehicule.setForeground(Color.GREEN);
-		lblGestionVehicule.setBounds(299, 140, 288, 48);
-		frame.getContentPane().add(lblGestionVehicule);
-		
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(199, 509, 515, 2);
-		frame.getContentPane().add(separator_1);
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(0, 0, 1133, 690);
-		frame.getContentPane().add(lblNewLabel);
-				JButton NewButton = new JButton("New button");
-				NewButton.addActionListener(null);
-				
 				frame.setVisible(true);
 	}
 	}

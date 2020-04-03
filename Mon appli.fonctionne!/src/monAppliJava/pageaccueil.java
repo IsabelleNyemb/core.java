@@ -121,7 +121,7 @@ public class pageaccueil {
 					
 		            BdConnexion = ConnexionBD.getConnection();
 		            Statement statement = BdConnexion.createStatement();// permet d'éxécuter une requête
-		            ResultSet resultat = statement.executeQuery( "SELECT idemploye,Matricule,Nom,Prenom,NumTel,Fonction,NumPermis FROM employe WHERE UserName='" + Name + "' AND MotDePasse='" + new String(PassWord) + "';");		            
+		            ResultSet resultat = statement.executeQuery( "SELECT idEmploye,Matricule,Nom,Prenom,NumTel,Fonction,NumPermis,ValidAdmin FROM employe WHERE UserName='" + Name + "' AND MotDePasse='" + new String(PassWord) + "';");		            
 		            // System.out.println(resultat.getFetchSize());
 		            resultat.last();// on se place à la fin du resultset
 		            if (resultat.getRow()==0) {//getRow pour compter, si = 0 alors il n'a pas trouvé d'élément donc une ereur s'affiche
@@ -136,9 +136,10 @@ public class pageaccueil {
 		            System.out.println("avant");
 		            //arraylist<v> tttt= new ...;
 		           
-		            if (resultat.getRow()==1) {		
+		            if (resultat.getRow()==1) {		// répéter à chaque demande de données
 		            	System.out.println("après");
-		              //on passe à l'étape suivante		            	
+		              //on passe à l'étape suivante		
+		            	String idEmploye= resultat.getString ("IdEmploye");
 		                String matriculeEmploye = resultat.getString( "Matricule" );	
 		                System.out.println(matriculeEmploye);
 		                String nomEmploye = resultat.getString( "Nom" );
@@ -147,19 +148,16 @@ public class pageaccueil {
 		                String numTelEmploye = resultat.getString( "NumTel" );
 		                String fonctionEmploye = resultat.getString( "Fonction" );
 		                String numPermisEmploye = resultat.getString( "NumPermis" );  
-	                	E= new Employe (matriculeEmploye,nomEmploye,prenomEmploye,numTelEmploye,fonctionEmploye,
-		                			numPermisEmploye);
-	                	System.out.println(E.getNumPermis());
-	                	
-		                		//System.out.println(E.getNom());  				                	  
+		                int validAdmin= resultat.getInt("validAdmin");
+	                	E= new Employe (idEmploye, matriculeEmploye,nomEmploye,prenomEmploye,numTelEmploye,fonctionEmploye,
+		                			numPermisEmploye,validAdmin);
+	                	new Jemeconnecte(E);
+	    				frame.dispose();	                		                			                		 				                	  
 		             } 		                	
-		            	
-		                //vehicle n = new v(....)
-		                //ttt.add(n)		            		        		 
-		        
-		        } catch (Exception e) {
-		        	//System.out.println (e.getMessage());
+		            		               		            		        		 		        
+		        } catch (Exception e) {		        	
 					e.printStackTrace();
+					Error.setVisible(true);
 				} finally {
 		            if ( BdConnexion != null )		            
 		                try {		                    
@@ -168,9 +166,7 @@ public class pageaccueil {
 		                  
 		                }
 		        }
-				new Jemeconnecte(E);
-            	//System.out.println(E.getNom());
-				frame.dispose();
+				
 			}
 		});
 		btnLogin.setFont(new Font("Sitka Text", Font.BOLD, 18));
