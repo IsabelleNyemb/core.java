@@ -1,4 +1,4 @@
-package baseFlotte;
+package view;
 
 import java.awt.EventQueue;
 
@@ -28,16 +28,18 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import connexion.ConnexionBD;
+import controller.Controller;
 
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.BevelBorder;
+import java.awt.Component;
 
 public class GestionnaireFlotte {
 
 	private JFrame frame;
-	private JTable Gtable;
+	
 	
 
 	/**
@@ -71,7 +73,11 @@ public class GestionnaireFlotte {
 		frame.getContentPane().setBackground(new Color(204, 204, 255));
 		frame.setBounds(100, 100, 836, 572);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		
+		JTable Gtable = new JTable();
+		Gtable.setColumnSelectionAllowed(true);
+		Gtable.setCellSelectionEnabled(true);
+		
 		Connection BdConnexion= null;
 		/*
 		 
@@ -79,21 +85,54 @@ public class GestionnaireFlotte {
 		/*
 		 *
 		 */
-		String [] columnNames = {"NumImmat", "Modele",
-               "Statut","DateEntrée", "DateSortie"};
-		
-		String [] [] data = {
-			    {"Kathy", "Smith", "Snowboarding", "aarr", "rrr"},
-			    {"John", "Doe","Aviron", "aarr", "rrr"},
-			    {"Sue", "Black","Knitting", "aarr", "rrr"}
-			    
-			};		
-		
+		try {
+			
+            BdConnexion = Controller.getConnection();
+            Statement statement1 = BdConnexion.createStatement();// permet d'éxécuter une requête
+            ResultSet resultatTab = statement1.executeQuery("SELECT Nom,Prenom,Fonction,NumPermis,NumImmat,Modele,DateReserVeh,DateRetourVeh FROM reservation INNER JOIN  vehicule on Vehicule_idVehicule = idVehicule INNER JOIN employe ON Employe_idEmploye= idEmploye");
+            
+            resultatTab.last();           
+            int compteur =resultatTab.getRow();
+            int k = 0;
+		String [][] tab = new String [compteur][7];
+		System.out.println(compteur);
+		  resultatTab.first();
+		  do {      
+        	tab [k][0]= resultatTab.getString ("Nom");
+        	tab [k][1]= resultatTab.getString ("Prenom");
+        	tab [k][2]= resultatTab.getString ("Fonction");
+        	tab [k][3]= resultatTab.getString ("NumImmat");
+        	tab [k][4]= resultatTab.getString("Modele");
+        	tab [k][5]= resultatTab.getString("DateReserveh");
+        	tab [k][6]= resultatTab.getString("DateRetourveh");
+        	k++;
+        }  while (resultatTab.next());
+        	       
+    	Gtable.setModel(new DefaultTableModel(
+					tab,
+					new String[] {
+							"NomEmploye","NumImmat", "Modele", "DateReserveh", "DateRetourveh", "Statut"
+					}
+				))	 ;
+    	
+				 } catch (Exception e) {
+					 
+						e.printStackTrace();
+					} finally {
+			            if ( BdConnexion != null )		            
+			                try {		                    
+			                    BdConnexion.close();
+			                } catch ( SQLException ignore ) {
+			                  
+			                }
+			        }
+		frame.getContentPane().setLayout(null);
+									
 		JPanel panel = new JPanel();
+		panel.setBounds(15, 16, 446, 47);
 		panel.setBackground(new Color(102, 204, 255));
 		panel.setForeground(new Color(0, 0, 0));
 		panel.setToolTipText("");
-		panel.setBounds(15, 10, 446, 47);
 		frame.getContentPane().add(panel);
 		
 		JLabel lblBienvenueDansVotre = new JLabel("Bienvenue dans votre espace administrateur");
@@ -101,9 +140,25 @@ public class GestionnaireFlotte {
 		lblBienvenueDansVotre.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel.add(lblBienvenueDansVotre);
 		
+		JPanel gestionRes = new JPanel();
+		gestionRes.setBounds(25, 79, 591, 265);
+		frame.getContentPane().add(gestionRes);
+		gestionRes.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane(Gtable);
+		scrollPane.setBounds(69, 5, 452, 402);
+		gestionRes.add(scrollPane);
+		scrollPane.setViewportBorder(null);
+		
+		Gtable.setFillsViewportHeight(true);
+		Gtable.setSelectionBackground(Color.GRAY);
+		Gtable.setForeground(Color.BLACK);
+		Gtable.setBackground(new Color(240, 248, 255));
+		Gtable.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(51, 384, 446, 67);
 		panel_1.setBackground(new Color(102, 204, 255));
-		panel_1.setBounds(0, 457, 834, 67);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -112,40 +167,23 @@ public class GestionnaireFlotte {
 		btnAjouter.setBounds(57, 16, 121, 29);
 		panel_1.add(btnAjouter);
 		
-		JButton btnSuppimer = new JButton("Suppimer");
+		JButton btnSuppimer = new JButton("Supprimer");
 		btnSuppimer.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnSuppimer.setBounds(346, 16, 130, 29);
+		btnSuppimer.setBounds(267, 16, 130, 29);
 		panel_1.add(btnSuppimer);
-		
+				
 		JButton btnSeDeconnecter = new JButton("Se deconnecter");
+		btnSeDeconnecter.setBounds(617, 471, 182, 29);
+		frame.getContentPane().add(btnSeDeconnecter);
 		btnSeDeconnecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.setVisible(false);
 			}
 		});
 		btnSeDeconnecter.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnSeDeconnecter.setBounds(604, 16, 182, 29);
-		panel_1.add(btnSeDeconnecter);
-		
-		JPanel gestionRes = new JPanel();
-		gestionRes.setBounds(116, 120, 500, 184);
-		frame.getContentPane().add(gestionRes);
-		
-		JScrollPane scrollPane = new JScrollPane(Gtable);
-		scrollPane.setViewportBorder(null);
-		gestionRes.add(scrollPane);
-		
-		Gtable = new JTable(data, columnNames);		
-		gestionRes.add(Gtable);
-		Gtable.setFillsViewportHeight(true);
-		Gtable.setSelectionBackground(Color.GRAY);
-		Gtable.setForeground(Color.BLACK);
-		Gtable.setBackground(Color.LIGHT_GRAY);
-		Gtable.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
-		Gtable.setVisible(true);
 			
 		
-		try {
+		/*try {
 			
             BdConnexion = ConnexionBD.getConnection();
             Statement statement = BdConnexion.createStatement();// permet d'éxécuter une requête
@@ -160,7 +198,7 @@ public class GestionnaireFlotte {
             	Success.setVisible(true);
             }
             */
-            resultat.first();// on retourne au début du resultset
+           /* resultat.first();// on retourne au début du resultset
             //arraylist<v> tttt= new ...;
             //private ArrayList <v>vehicule= new ArrayList <String>();
             while ( resultat.next() ) { //on passe à l'étape suivante
@@ -173,22 +211,7 @@ public class GestionnaireFlotte {
                 	Vehicule v= new Vehicule ();
 
             }
-            String [][] tab = new String [3][6];
-            if(resultat.next()){
-            	tab [0][1]= resultat.getString ("NomEmploye");
-            	tab [0][2]= resultat.getString ("NumImmat");
-            	tab [0][3]= resultat.getString("Modele");
-            	tab [0][4]= resultat.getString("DateReserveh");
-            	tab [0][5]= resultat.getString("DateRetourveh");
-            	tab [0][6]= resultat.getString ("Statut");
-            }
             
-    				new DefaultTableModel(
-    			tab,
-    			new String[] {
-    					"NomEmploye","NumImmat", "Modele", "DateReserveh", "DateRetourveh", "Statut"
-    			}
-    		)
     		;
                      
         } catch (Exception e) {
@@ -200,9 +223,8 @@ public class GestionnaireFlotte {
                     BdConnexion.close();
                 } catch ( SQLException ignore ) {
                   
-                }
+                }*/
 		
 				frame.setVisible(true);
-	}
 	}
 }

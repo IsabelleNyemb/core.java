@@ -1,4 +1,4 @@
-package monAppliJava;
+package view;
 
 import java.awt.EventQueue;
 

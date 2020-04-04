@@ -1,4 +1,4 @@
-package baseFlotte;
+package view;
 
 import java.awt.EventQueue;
 
@@ -22,7 +22,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import connexion.ConnexionBD;
+import controller.Controller;
+import model.Employe;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JScrollPane;
@@ -98,7 +99,7 @@ public class Jemeconnecte {
 		
 		try {
 			
-            BdConnexion = ConnexionBD.getConnection();
+            BdConnexion = Controller.getConnection();
             Statement statement = BdConnexion.createStatement();// permet d'éxécuter une requête
             ResultSet resultat = statement.executeQuery( 
             		"SELECT NumImmat, Modele, DateReserVeh FROM reservation INNER JOIN vehicule ON Vehicule_idVehicule=idVehicule WHERE Employe_idEmploye='"+ this.itsMe.getIdemploye() + "';");	

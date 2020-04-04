@@ -1,4 +1,4 @@
-package monAppliJava;
+package view;
 
 import java.awt.EventQueue;
 
@@ -6,9 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import baseFlotte.Employe;
-import baseFlotte.Jemeconnecte;
-import connexion.ConnexionBD;
+import controller.Controller;
+import model.Employe;
 
 import javax.swing.JPasswordField;
 import java.awt.Color;
@@ -119,7 +118,7 @@ public class pageaccueil {
 				
 				try {
 					
-		            BdConnexion = ConnexionBD.getConnection();
+		            BdConnexion = Controller.getConnection();
 		            Statement statement = BdConnexion.createStatement();// permet d'éxécuter une requête
 		            ResultSet resultat = statement.executeQuery( "SELECT idEmploye,Matricule,Nom,Prenom,NumTel,Fonction,NumPermis,ValidAdmin FROM employe WHERE UserName='" + Name + "' AND MotDePasse='" + new String(PassWord) + "';");		            
 		            // System.out.println(resultat.getFetchSize());

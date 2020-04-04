@@ -1,8 +1,16 @@
-package baseFlotte;
+package model;
 
 import java.sql.Date;
 
 public class Vehicule {
+	private String idVehicule;
+	private String numImmat;
+	private String modele;
+	private String statut;
+	private Date dateEntree;
+	private Date dateSortie;
+	
+	
 	public String getIdVehicule() {
 		return idVehicule;
 	}
@@ -39,12 +47,7 @@ public class Vehicule {
 	public void setDateSortie(Date dateSortie) {
 		this.dateSortie = dateSortie;
 	}
-	private String idVehicule;
-	private String numImmat;
-	private String modele;
-	private String statut;
-	private Date dateEntree;
-	private Date dateSortie;
+	
 
 	
 	}

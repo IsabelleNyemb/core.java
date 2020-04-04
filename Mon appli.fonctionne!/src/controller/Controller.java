@@ -1,11 +1,11 @@
-package connexion;
+package controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-public class ConnexionBD {
+public class Controller {
 	
 	
 		public static void main (String[] args) throws Exception {

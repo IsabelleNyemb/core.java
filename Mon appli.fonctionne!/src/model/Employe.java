@@ -1,4 +1,4 @@
-package baseFlotte;
+package model;
 
 public class Employe {
 	private String idemploye;
