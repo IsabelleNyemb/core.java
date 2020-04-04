@@ -1,7 +1,7 @@
 package model;
 
 public class Employe {
-	private String idemploye;
+	private String idemploye= "";
 	private String matricule;
 	private String nom;
 	private String prenom;

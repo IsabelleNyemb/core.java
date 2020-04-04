@@ -74,8 +74,7 @@ public class pageaccueil {
 		Success.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		Success.setBounds(15, 41, 183, 20);
 		frame.getContentPane().add(Success);
-		Success.setVisible(false);
-		
+		Success.setVisible(false);		
 		
 		JLabel lblNewLabel = new JLabel("Authentification");
 		lblNewLabel.setFont(new Font("Sitka Text", Font.BOLD | Font.ITALIC, 22));
@@ -109,63 +108,17 @@ public class pageaccueil {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String Name = CaseUserName.getText();
-				char[] PassWord = CaseMDP.getPassword();
-				/*System.out.println(Name);
+				char[] PassWord = CaseMDP.getPassword();	
+				System.out.println(Name);
 				System.out.println(PassWord);
-				System.out.println(new String(PassWord));*/
-				Connection BdConnexion= null;
-				Employe E= new Employe();
-				
-				try {
-					
-		            BdConnexion = Controller.getConnection();
-		            Statement statement = BdConnexion.createStatement();// permet d'éxécuter une requête
-		            ResultSet resultat = statement.executeQuery( "SELECT idEmploye,Matricule,Nom,Prenom,NumTel,Fonction,NumPermis,ValidAdmin FROM employe WHERE UserName='" + Name + "' AND MotDePasse='" + new String(PassWord) + "';");		            
-		            // System.out.println(resultat.getFetchSize());
-		            resultat.last();// on se place à la fin du resultset
-		            if (resultat.getRow()==0) {//getRow pour compter, si = 0 alors il n'a pas trouvé d'élément donc une ereur s'affiche
-		            	Error.setVisible(true);
-		            }
-		            
-		            else {
-		            	Success.setVisible(true);
-		            }
-		            
-		            resultat.first();// on retourne au début du resultset
-		            System.out.println("avant");
-		            //arraylist<v> tttt= new ...;
-		           
-		            if (resultat.getRow()==1) {		// répéter à chaque demande de données
-		            	System.out.println("après");
-		              //on passe à l'étape suivante		
-		            	String idEmploye= resultat.getString ("IdEmploye");
-		                String matriculeEmploye = resultat.getString( "Matricule" );	
-		                System.out.println(matriculeEmploye);
-		                String nomEmploye = resultat.getString( "Nom" );
-		                System.out.println(nomEmploye);
-		                String prenomEmploye = resultat.getString( "Prenom" );
-		                String numTelEmploye = resultat.getString( "NumTel" );
-		                String fonctionEmploye = resultat.getString( "Fonction" );
-		                String numPermisEmploye = resultat.getString( "NumPermis" );  
-		                int validAdmin= resultat.getInt("validAdmin");
-	                	E= new Employe (idEmploye, matriculeEmploye,nomEmploye,prenomEmploye,numTelEmploye,fonctionEmploye,
-		                			numPermisEmploye,validAdmin);
-	                	new Jemeconnecte(E);
-	    				frame.dispose();	                		                			                		 				                	  
-		             } 		                	
-		            		               		            		        		 		        
-		        } catch (Exception e) {		        	
-					e.printStackTrace();
+				Employe Em= Controller.getIdentifiant(Name, new String(PassWord));	
+				if(Em.getIdemploye()=="") {
 					Error.setVisible(true);
-				} finally {
-		            if ( BdConnexion != null )		            
-		                try {		                    
-		                    BdConnexion.close();
-		                } catch ( SQLException ignore ) {
-		                  
-		                }
-		        }
-				
+				}
+				else {
+					new Jemeconnecte(Em);
+					frame.dispose();
+				}								
 			}
 		});
 		btnLogin.setFont(new Font("Sitka Text", Font.BOLD, 18));

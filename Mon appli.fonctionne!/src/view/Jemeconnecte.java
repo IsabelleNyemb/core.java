@@ -38,10 +38,7 @@ public class Jemeconnecte {
 
 	private JFrame frame;
 	private JTable ListeResa;
-	
-	
-	
-
+			
 	/**
 	 * Launch the application.
 	 */
@@ -90,48 +87,19 @@ public class Jemeconnecte {
 		frame.setBounds(600, 600, 663, 431);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		Connection BdConnexion= null;
 		
 		ListeResa = new JTable();
 		ListeResa.setColumnSelectionAllowed(true);
 		ListeResa.setCellSelectionEnabled(true);
-		ListeResa.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		
-		try {
-			
-            BdConnexion = Controller.getConnection();
-            Statement statement = BdConnexion.createStatement();// permet d'éxécuter une requête
-            ResultSet resultat = statement.executeQuery( 
-            		"SELECT NumImmat, Modele, DateReserVeh FROM reservation INNER JOIN vehicule ON Vehicule_idVehicule=idVehicule WHERE Employe_idEmploye='"+ this.itsMe.getIdemploye() + "';");	
-            System.out.println(this.itsMe.getIdemploye());
-           // System.out.println(resultat.getRow());
-            //System.out.println(resultat.getString ("NumImmat"));
-            String [][] tab = new String [1][3];
-            if(resultat.next()){
-            	tab [0][0]= resultat.getString ("NumImmat");
-            	tab [0][1]= resultat.getString("Modele");
-            	tab [0][2]= resultat.getString("DateReserveh");
-            }
-            ListeResa.setModel(
-    				new DefaultTableModel(
-    			tab,
-    			new String[] {
-    				"NumImmat", "Modele", "DateReserveh"
-    			}
-    		)
-    		);
-          
-		 } catch (Exception e) {
-	        	//System.out.println (e.getMessage());
-				e.printStackTrace();
-			} finally {
-	            if ( BdConnexion != null )		            
-	                try {		                    
-	                    BdConnexion.close();
-	                } catch ( SQLException ignore ) {
-	                  
-	                }
-	        }
+		ListeResa.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));	
+		ListeResa.setModel(
+  				new DefaultTableModel(
+  			Controller.getReserver(this.itsMe.getIdemploye()),
+  			new String[] {
+  				"NumImmat", "Modele", "DateReserveh"
+  			}
+  		)
+  		);
 			frame.dispose();
 		
 		JPanel InfosBV = new JPanel();

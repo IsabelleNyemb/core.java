@@ -40,8 +40,6 @@ public class GestionnaireFlotte {
 
 	private JFrame frame;
 	
-	
-
 	/**
 	 * Launch the application.
 	 */
@@ -76,56 +74,14 @@ public class GestionnaireFlotte {
 		
 		JTable Gtable = new JTable();
 		Gtable.setColumnSelectionAllowed(true);
-		Gtable.setCellSelectionEnabled(true);
-		
-		Connection BdConnexion= null;
-		/*
-		 
-		 */
-		/*
-		 *
-		 */
-		try {
-			
-            BdConnexion = Controller.getConnection();
-            Statement statement1 = BdConnexion.createStatement();// permet d'éxécuter une requête
-            ResultSet resultatTab = statement1.executeQuery("SELECT Nom,Prenom,Fonction,NumPermis,NumImmat,Modele,DateReserVeh,DateRetourVeh FROM reservation INNER JOIN  vehicule on Vehicule_idVehicule = idVehicule INNER JOIN employe ON Employe_idEmploye= idEmploye");
-            
-            resultatTab.last();           
-            int compteur =resultatTab.getRow();
-            int k = 0;
-		String [][] tab = new String [compteur][7];
-		System.out.println(compteur);
-		  resultatTab.first();
-		  do {      
-        	tab [k][0]= resultatTab.getString ("Nom");
-        	tab [k][1]= resultatTab.getString ("Prenom");
-        	tab [k][2]= resultatTab.getString ("Fonction");
-        	tab [k][3]= resultatTab.getString ("NumImmat");
-        	tab [k][4]= resultatTab.getString("Modele");
-        	tab [k][5]= resultatTab.getString("DateReserveh");
-        	tab [k][6]= resultatTab.getString("DateRetourveh");
-        	k++;
-        }  while (resultatTab.next());
-        	       
+		Gtable.setCellSelectionEnabled(true);	
     	Gtable.setModel(new DefaultTableModel(
-					tab,
-					new String[] {
+    			Controller.getGestionnaire(),
+      			new String[] {
 							"NomEmploye","NumImmat", "Modele", "DateReserveh", "DateRetourveh", "Statut"
 					}
 				))	 ;
-    	
-				 } catch (Exception e) {
-					 
-						e.printStackTrace();
-					} finally {
-			            if ( BdConnexion != null )		            
-			                try {		                    
-			                    BdConnexion.close();
-			                } catch ( SQLException ignore ) {
-			                  
-			                }
-			        }
+	
 		frame.getContentPane().setLayout(null);
 									
 		JPanel panel = new JPanel();
@@ -181,49 +137,6 @@ public class GestionnaireFlotte {
 			}
 		});
 		btnSeDeconnecter.setFont(new Font("Tahoma", Font.BOLD, 18));
-			
-		
-		/*try {
-			
-            BdConnexion = ConnexionBD.getConnection();
-            Statement statement = BdConnexion.createStatement();// permet d'éxécuter une requête
-            ResultSet resultat = statement.executeQuery("SELECT idVehicule, NumImmat, Modele, DateEntree, DateSortie,Statut,DateCreation" + 
-            		"FROM vehicule");
-            System.out.println(resultat.getFetchSize());
-            resultat.last();// on se place à la fin du resultset
-           /* if (resultat.getRow()==0) {//getRow pour compter, si = 0 alors il n'a pas trouvé d'élément donc une ereur s'affiche
-            	Error.setVisible(true);
-            }
-            else {
-            	Success.setVisible(true);
-            }
-            */
-           /* resultat.first();// on retourne au début du resultset
-            //arraylist<v> tttt= new ...;
-            //private ArrayList <v>vehicule= new ArrayList <String>();
-            while ( resultat.next() ) { //on passe à l'étape suivante
-            	String idVehicule=resultat.getString ("idVehicule");
-                String numImmat = resultat.getString( "NumImmat" );
-                String modele = resultat.getString( "Modele" );
-                String statut = resultat.getString( "Statut" );
-                String dateEntree = resultat.getString( "DateEntree" );
-                String dateSortie = resultat.getString( "DateSortie" ); 
-                	Vehicule v= new Vehicule ();
-
-            }
-            
-    		;
-                     
-        } catch (Exception e) {
-        	System.out.println (e.getMessage());
-			e.printStackTrace();
-		} finally {
-            if ( BdConnexion != null )		            
-                try {		                    
-                    BdConnexion.close();
-                } catch ( SQLException ignore ) {
-                  
-                }*/
 		
 				frame.setVisible(true);
 	}
