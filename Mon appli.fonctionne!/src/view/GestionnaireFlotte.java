@@ -29,16 +29,30 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import controller.Controller;
+import model.Employe;
 
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import java.awt.Component;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JScrollBar;
 
 public class GestionnaireFlotte {
 
 	private JFrame frame;
+	//JComboBox combobox;
+	private JTextField MatriculeR;
+	private JTextField NumPermisR;
+	private JTextField IdReservationR;
+	private JTextField NumImmatR;
+	private JTextField DateReserVehR;
+	private JTextField DateRetourVehR;
+	private JTextField textField;
 	
 	/**
 	 * Launch the application.
@@ -68,9 +82,23 @@ public class GestionnaireFlotte {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(204, 204, 255));
-		frame.setBounds(100, 100, 836, 572);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setBackground(new Color(255, 204, 255));
+		frame.setBounds(100, 100, 1110, 608);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		
+		JLabel Error = new JLabel("");
+		Error.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		Error.setForeground(Color.RED);
+		Error.setBounds(0, 59, 193, 20);
+		frame.getContentPane().add(Error);
+		Error.setVisible(false);
+		
+		JLabel Success = new JLabel("");
+		Success.setForeground(Color.GREEN);
+		Success.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		Success.setBounds(15, 41, 183, 20);
+		frame.getContentPane().add(Success);
+		Success.setVisible(false);		
 		
 		JTable Gtable = new JTable();
 		Gtable.setColumnSelectionAllowed(true);
@@ -78,14 +106,14 @@ public class GestionnaireFlotte {
     	Gtable.setModel(new DefaultTableModel(
     			Controller.getGestionnaire(),
       			new String[] {
-							"NomEmploye","NumImmat", "Modele", "DateReserveh", "DateRetourveh", "Statut"
-					}
+							"IdEmploye", "Matricule","Nom","Prenom", "Fonction","NumPermis","NumImmat", "Modele", "DateReserveh", "DateRetourveh"
+					}   			
 				))	 ;
 	
 		frame.getContentPane().setLayout(null);
 									
 		JPanel panel = new JPanel();
-		panel.setBounds(15, 16, 446, 47);
+		panel.setBounds(339, 16, 446, 47);
 		panel.setBackground(new Color(102, 204, 255));
 		panel.setForeground(new Color(0, 0, 0));
 		panel.setToolTipText("");
@@ -97,12 +125,12 @@ public class GestionnaireFlotte {
 		panel.add(lblBienvenueDansVotre);
 		
 		JPanel gestionRes = new JPanel();
-		gestionRes.setBounds(25, 79, 591, 265);
+		gestionRes.setBounds(43, 77, 1030, 97);
 		frame.getContentPane().add(gestionRes);
 		gestionRes.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane(Gtable);
-		scrollPane.setBounds(69, 5, 452, 402);
+		scrollPane.setBounds(0, 10, 1008, 87);
 		gestionRes.add(scrollPane);
 		scrollPane.setViewportBorder(null);
 		
@@ -112,31 +140,199 @@ public class GestionnaireFlotte {
 		Gtable.setBackground(new Color(240, 248, 255));
 		Gtable.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(51, 384, 446, 67);
-		panel_1.setBackground(new Color(102, 204, 255));
-		frame.getContentPane().add(panel_1);
-		panel_1.setLayout(null);
+		JPanel ListVeh = new JPanel();
+		ListVeh.setBackground(new Color(204, 204, 255));
+		ListVeh.setBounds(0, 237, 1088, 331);
+		frame.getContentPane().add(ListVeh);
+		ListVeh.setLayout(null);
 		
-		JButton btnAjouter = new JButton("Ajouter");
-		btnAjouter.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnAjouter.setBounds(57, 16, 121, 29);
-		panel_1.add(btnAjouter);
+		JLabel lblNom = new JLabel("Matricule");
+		lblNom.setBounds(15, 16, 93, 23);
+		lblNom.setForeground(Color.BLACK);
+		lblNom.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		lblNom.setBackground(Color.WHITE);
+		ListVeh.add(lblNom);
 		
-		JButton btnSuppimer = new JButton("Supprimer");
-		btnSuppimer.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnSuppimer.setBounds(267, 16, 130, 29);
-		panel_1.add(btnSuppimer);
-				
+		JLabel lblNumimmat = new JLabel("NumImmat");
+		lblNumimmat.setForeground(Color.BLACK);
+		lblNumimmat.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		lblNumimmat.setBackground(Color.WHITE);
+		lblNumimmat.setBounds(488, 16, 105, 23);
+		ListVeh.add(lblNumimmat);
+		
+		JLabel lblDatereserveh = new JLabel("DateReserVeh");
+		lblDatereserveh.setForeground(Color.BLACK);
+		lblDatereserveh.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		lblDatereserveh.setBackground(Color.WHITE);
+		lblDatereserveh.setBounds(488, 68, 134, 23);
+		ListVeh.add(lblDatereserveh);
+		
+		JLabel lblDateretourveh = new JLabel("DateRetourVeh");
+		lblDateretourveh.setForeground(Color.BLACK);
+		lblDateretourveh.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		lblDateretourveh.setBackground(Color.WHITE);
+		lblDateretourveh.setBounds(488, 127, 134, 23);
+		ListVeh.add(lblDateretourveh);
+		
+		JLabel lblFonction = new JLabel("NumPermis");
+		lblFonction.setForeground(Color.BLACK);
+		lblFonction.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		lblFonction.setBackground(Color.WHITE);
+		lblFonction.setBounds(15, 68, 105, 23);
+		ListVeh.add(lblFonction);
+		
+		JLabel lblNumpermis = new JLabel("IdReservation");
+		lblNumpermis.setForeground(Color.BLACK);
+		lblNumpermis.setFont(new Font("Sitka Text", Font.BOLD, 18));
+		lblNumpermis.setBackground(Color.WHITE);
+		lblNumpermis.setBounds(15, 127, 125, 23);
+		ListVeh.add(lblNumpermis);
+		
+		MatriculeR = new JTextField();
+		MatriculeR.setColumns(10);
+		MatriculeR.setBounds(169, 13, 212, 26);
+		ListVeh.add(MatriculeR);
+		
+		NumPermisR = new JTextField();
+		NumPermisR.setColumns(10);
+		NumPermisR.setBounds(169, 65, 212, 26);
+		ListVeh.add(NumPermisR);
+		
+		IdReservationR = new JTextField();
+		IdReservationR.setColumns(10);
+		IdReservationR.setBounds(169, 124, 212, 26);
+		ListVeh.add(IdReservationR);
+		
+		NumImmatR = new JTextField();
+		NumImmatR.setColumns(10);
+		NumImmatR.setBounds(685, 13, 212, 26);
+		ListVeh.add(NumImmatR);
+		
+		DateReserVehR = new JTextField();
+		DateReserVehR.setColumns(10);
+		DateReserVehR.setBounds(685, 68, 212, 26);
+		ListVeh.add(DateReserVehR);
+		
+		DateRetourVehR = new JTextField();
+		DateRetourVehR.setColumns(10);
+		DateRetourVehR.setBounds(685, 124, 212, 26);
+		ListVeh.add(DateRetourVehR);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(153, 255, 153));
+		panel_2.setBounds(349, 211, 80, 56);
+		ListVeh.add(panel_2);
+		
+		JButton btnAjouter = new JButton("");
+		btnAjouter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String Matricule = MatriculeR.getText();
+				String NumPermis = NumPermisR.getText();
+				String IdReservation = IdReservationR.getText();
+				String NumImmat = NumImmatR.getText();
+				String DateReserVeh = DateReserVehR.getText();
+				String DateRetourVeh = DateRetourVehR.getText();
+				Controller.AjouterR(Matricule,NumPermis,NumImmat, IdReservation, DateReserVeh, DateRetourVeh );	
+				Gtable.setModel(new DefaultTableModel(
+		    			Controller.getGestionnaire(),
+		      			new String[] {
+									"IdEmploye", "Matricule","Nom","Prenom", "Fonction","NumPermis","NumImmat", "Modele", "DateReserveh", "DateRetourveh"
+							}   			
+						))	 ;
+				}							
+			});
+		panel_2.add(btnAjouter);
+		btnAjouter.setBackground(new Color(0, 255, 51));
+		btnAjouter.setIcon(new ImageIcon(GestionnaireFlotte.class.getResource("/icons/iconfinder_Increase_40066.png")));
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(0, 0, 51));
+		panel_3.setBounds(730, 211, 71, 51);
+		ListVeh.add(panel_3);
+		
+		JButton btnSupprimer = new JButton("");
+		panel_3.add(btnSupprimer);
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {			
+			}
+		});
+		btnSupprimer.setIcon(new ImageIcon(GestionnaireFlotte.class.getResource("/icons/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
+		
 		JButton btnSeDeconnecter = new JButton("Se deconnecter");
-		btnSeDeconnecter.setBounds(617, 471, 182, 29);
-		frame.getContentPane().add(btnSeDeconnecter);
+		btnSeDeconnecter.setBounds(887, 288, 186, 29);
+		ListVeh.add(btnSeDeconnecter);
 		btnSeDeconnecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.setVisible(false);
 			}
 		});
 		btnSeDeconnecter.setFont(new Font("Tahoma", Font.BOLD, 18));
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.WHITE);
+		panel_1.setBounds(538, 211, 80, 51);
+		ListVeh.add(panel_1);
+		
+		JButton btnRefresh = new JButton("");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {				
+				MatriculeR.setText("");
+				NumPermisR.setText("");
+				IdReservationR.setText("");
+				NumImmatR.setText("");
+				DateReserVehR.setText("");
+				DateRetourVehR.setText("");	
+				Error.setVisible(false);
+				Success.setVisible(false);
+			}	
+			
+			
+		});
+		panel_1.add(btnRefresh);
+		btnRefresh.setIcon(new ImageIcon(GestionnaireFlotte.class.getResource("/icons/refresh_arrow_1546.png")));
+		
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(new Color(204, 204, 204));
+		panel_4.setBounds(39, 211, 179, 70);
+		ListVeh.add(panel_4);
+		panel_4.setLayout(null);
+		
+		textField = new JTextField();
+		textField.setBounds(0, 42, 179, 28);
+		panel_4.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnRechercher = new JButton("Rechercher");
+		btnRechercher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {			
+			}
+		});
+		btnRechercher.addMouseListener(new MouseAdapter() {
+		});
+		btnRechercher.setBackground(new Color(102, 255, 255));
+		btnRechercher.setBounds(31, 5, 115, 29);
+		panel_4.add(btnRechercher);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(114, 192, 795, 2);
+		ListVeh.add(separator_1);
+		
+		JLabel lblAaaammjj = new JLabel("AAAA/MM/JJ");
+		lblAaaammjj.setBackground(Color.LIGHT_GRAY);
+		lblAaaammjj.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblAaaammjj.setBounds(900, 74, 86, 20);
+		ListVeh.add(lblAaaammjj);
+		
+		JLabel label = new JLabel("AAAA/MM/JJ");
+		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		label.setBackground(Color.LIGHT_GRAY);
+		label.setBounds(900, 127, 86, 20);
+		ListVeh.add(label);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(261, 211, 748, 2);
+		frame.getContentPane().add(separator);
 		
 				frame.setVisible(true);
 	}

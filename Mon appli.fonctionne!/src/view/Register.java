@@ -125,10 +125,6 @@ public class Register  {
 					System.out.println(new String (PassWordR));
 					System.out.println(new String (PassWordR2));
 					Validated.setVisible(true);		
-		
-			
-			
-
 			
 			}
 				
@@ -177,9 +173,7 @@ public class Register  {
 		lblNewLabel.setIcon(new ImageIcon(Register.class.getResource("/icons/00rwOTBCG9wGtuLysGi7UEh8oGSSK4Q3T2sZ2aeS.jpeg")));
 		lblNewLabel.setBounds(0, -1, 673, 550);
 		frame.getContentPane().add(lblNewLabel);
-		
-		
-		
+				
 		frame.setVisible(true); // la page register devient visible quand tout s'éxécute
 	}
 }
