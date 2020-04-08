@@ -52,7 +52,6 @@ public class GestionnaireFlotte {
 	private JTextField NumImmatR;
 	private JTextField DateReserVehR;
 	private JTextField DateRetourVehR;
-	private JTextField textField;
 	
 	/**
 	 * Launch the application.
@@ -106,7 +105,7 @@ public class GestionnaireFlotte {
     	Gtable.setModel(new DefaultTableModel(
     			Controller.getGestionnaire(),
       			new String[] {
-							"IdEmploye", "Matricule","Nom","Prenom", "Fonction","NumPermis","NumImmat", "Modele", "DateReserveh", "DateRetourveh"
+							"IdReservation", "IdEmploye", "Matricule","Nom","Prenom", "Fonction","NumPermis","NumImmat", "Modele", "DateReserveh", "DateRetourveh"
 					}   			
 				))	 ;
 	
@@ -220,7 +219,7 @@ public class GestionnaireFlotte {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(153, 255, 153));
-		panel_2.setBounds(349, 211, 80, 56);
+		panel_2.setBounds(114, 206, 80, 56);
 		ListVeh.add(panel_2);
 		
 		JButton btnAjouter = new JButton("");
@@ -233,7 +232,7 @@ public class GestionnaireFlotte {
 				String DateReserVeh = DateReserVehR.getText();
 				String DateRetourVeh = DateRetourVehR.getText();
 				Controller.AjouterR(Matricule,NumPermis,NumImmat, IdReservation, DateReserVeh, DateRetourVeh );	
-				Gtable.setModel(new DefaultTableModel(
+				Gtable.setModel(new DefaultTableModel( //pour rafraichir la table
 		    			Controller.getGestionnaire(),
 		      			new String[] {
 									"IdEmploye", "Matricule","Nom","Prenom", "Fonction","NumPermis","NumImmat", "Modele", "DateReserveh", "DateRetourveh"
@@ -247,19 +246,28 @@ public class GestionnaireFlotte {
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(0, 0, 51));
-		panel_3.setBounds(730, 211, 71, 51);
+		panel_3.setBounds(604, 219, 114, 41);
 		ListVeh.add(panel_3);
 		
-		JButton btnSupprimer = new JButton("");
-		panel_3.add(btnSupprimer);
-		btnSupprimer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {			
+		JButton btnUpdate = new JButton("Update");
+		panel_3.add(btnUpdate);
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnUpdate.setBackground(Color.WHITE);
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {	
+				String IdReservation = IdReservationR.getText();
+				Controller.UpdateReservation(IdReservation);
+				Gtable.setModel(new DefaultTableModel(
+		    			Controller.getGestionnaire(),
+		      			new String[] {
+									"IdReservation","IdEmploye", "Matricule","Nom","Prenom", "Fonction","NumPermis","NumImmat", "Modele", "DateReserveh", "DateRetourveh"
+							}   			
+						));
 			}
 		});
-		btnSupprimer.setIcon(new ImageIcon(GestionnaireFlotte.class.getResource("/icons/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
 		
 		JButton btnSeDeconnecter = new JButton("Se deconnecter");
-		btnSeDeconnecter.setBounds(887, 288, 186, 29);
+		btnSeDeconnecter.setBounds(887, 272, 186, 31);
 		ListVeh.add(btnSeDeconnecter);
 		btnSeDeconnecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -270,7 +278,7 @@ public class GestionnaireFlotte {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(538, 211, 80, 51);
+		panel_1.setBounds(357, 211, 80, 51);
 		ListVeh.add(panel_1);
 		
 		JButton btnRefresh = new JButton("");
@@ -290,29 +298,6 @@ public class GestionnaireFlotte {
 		});
 		panel_1.add(btnRefresh);
 		btnRefresh.setIcon(new ImageIcon(GestionnaireFlotte.class.getResource("/icons/refresh_arrow_1546.png")));
-		
-		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBackground(new Color(204, 204, 204));
-		panel_4.setBounds(39, 211, 179, 70);
-		ListVeh.add(panel_4);
-		panel_4.setLayout(null);
-		
-		textField = new JTextField();
-		textField.setBounds(0, 42, 179, 28);
-		panel_4.add(textField);
-		textField.setColumns(10);
-		
-		JButton btnRechercher = new JButton("Rechercher");
-		btnRechercher.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {			
-			}
-		});
-		btnRechercher.addMouseListener(new MouseAdapter() {
-		});
-		btnRechercher.setBackground(new Color(102, 255, 255));
-		btnRechercher.setBounds(31, 5, 115, 29);
-		panel_4.add(btnRechercher);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(114, 192, 795, 2);

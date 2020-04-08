@@ -1,51 +1,88 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.*;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 
 public class Reservation {
 	private String idReservation;
-	private Date DateReserVeh;
-	private Date DateRetourVeh;
-	private DateFormat DateCreation;
+	private String DateReserVeh;
+	private String DateRetourVeh;
+	private String DateCreation;
+	private String Employe;
+	private String Vehicule;	
+	private int ActivReserv;
 	
-	public Reservation() {
-		
-	}
-	
-	public Reservation(String idReservation,Date DateReserVeh, Date DateRetourVeh,DateFormat DateCreation) {
+	public Reservation(String idReservation,String DateReserVeh, String DateRetourVeh,int ActivReserv) {
 		this.idReservation= idReservation;
 		this.DateReserVeh=DateReserVeh;
 		this.DateRetourVeh=DateRetourVeh;
-		this.DateCreation= DateCreation;
+		this.DateCreation= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		this.ActivReserv= ActivReserv;
 	}
-	
+
 	public String getIdReservation() {
 		return idReservation;
 	}
+
 	public void setIdReservation(String idReservation) {
 		this.idReservation = idReservation;
 	}
-	public Date getDateReserVehicule() {
+
+	public String getDateReserVeh() {
 		return DateReserVeh;
 	}
-	public void setDateReserVehicule(Date dateReserVehicule) {
-		DateReserVeh = dateReserVehicule;
+
+	public void setDateReserVeh(String dateReserVeh) {
+		DateReserVeh = dateReserVeh;
 	}
-	public Date getDateRetourVehicule() {
+
+	public String getDateRetourVeh() {
 		return DateRetourVeh;
 	}
-	public void setDateRetourVehicule(Date dateRetourVehicule) {
-		DateRetourVeh = dateRetourVehicule;
+
+	public void setDateRetourVeh(String dateRetourVeh) {
+		DateRetourVeh = dateRetourVeh;
 	}
-	public DateFormat getDateCreation() {
+
+	public String getDateCreation() {
 		return DateCreation;
 	}
-	public void setDateCreation(DateFormat dateCreation) {
+
+	public void setDateCreation(String dateCreation) {
 		DateCreation = dateCreation;
 	}
 	
+	public int getActivReserv() {
+		return ActivReserv;
+	}
+
+	public void setActivReserv(int ActivReserv) {
+		ActivReserv = ActivReserv;
+	}
+	
+	public String getEmploye() {
+		return Employe;
+	}
+
+	public void setEmploye(String employe) {
+		Employe = employe;
+	}
+
+	public String getVehicule() {
+		return Vehicule;
+	}
+
+	public void setVehicule(String vehicule) {
+		Vehicule = vehicule;
+	}
+
+	
+
+	public Reservation() {
+		
+	}
 	
 }

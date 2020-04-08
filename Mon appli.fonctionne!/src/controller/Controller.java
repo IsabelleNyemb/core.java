@@ -22,8 +22,9 @@ public class Controller {
 			//Controller.AjouterR ( "E024", "MR 1895 765" , "00092516M" , "R10", "2020-04-06" ,  "2020-05-06");			
 			//Controller.Update();
 			//Controller.RemplirComboBox();
-			//Controller.SupprimerParMatricule("EMP587M");
-			//Controller.RechercherParNom("SIMO");
+			//Controller.SupprimerReservation("");
+			//Controller.UpdateReservation("SIMO");
+			ControllerTest.testAjouterR();
 			
 		}
 		
@@ -85,7 +86,7 @@ public class Controller {
 			return E;
 		}
 	
-		public static String [][] getReserver(String IdEmploye){
+		public static String [][] getReserver(String IdEmploye){ // réservation employé
 			Connection BdConnexion= null;
 			String [][] tab = new String [1][3];
 			try {
@@ -116,31 +117,32 @@ public class Controller {
 			return tab;
 		}
 		         
-		public static String [][] getGestionnaire(){
+		public static String [][] getGestionnaire(){ //gérer les réservations
 			Connection BdConnexion= null;
 			String [][] tab = new String [1][7];
 			try {				
 	            BdConnexion = Controller.getConnection();
 	            Statement statement1 = BdConnexion.createStatement();// permet d'éxécuter une requête
-	            ResultSet resultatTab = statement1.executeQuery("SELECT idEmploye,Matricule,Nom,Prenom,Fonction,NumPermis,NumImmat,Modele,DateReserVeh,DateRetourVeh FROM reservation INNER JOIN  vehicule on Vehicule_idVehicule = idVehicule INNER JOIN employe ON Employe_idEmploye= idEmploye");
+	            ResultSet resultatTab = statement1.executeQuery("SELECT IdReservation, idEmploye,Matricule,Nom,Prenom,Fonction,NumPermis,NumImmat,Modele,DateReserVeh,DateRetourVeh FROM reservation INNER JOIN  vehicule on Vehicule_idVehicule = idVehicule INNER JOIN employe ON Employe_idEmploye= idEmploye WHERE ActivReserv='"+ 1 +"';");
 	            
 	            resultatTab.last();           
 	            int compteur =resultatTab.getRow();
 	            int k = 0;
-			tab = new String [compteur][10];
+			tab = new String [compteur][11];
 			System.out.println(compteur);
 			  resultatTab.first();
 			  do { 
-				tab [k][0]= resultatTab.getString ("IdEmploye");
-				tab [k][1]= resultatTab.getString ("Matricule");
-	        	tab [k][2]= resultatTab.getString ("Nom");
-	        	tab [k][3]= resultatTab.getString ("Prenom");
-	        	tab [k][4]= resultatTab.getString ("Fonction");
-	        	tab [k][5]= resultatTab.getString ("NumPermis");
-	        	tab [k][6]= resultatTab.getString ("NumImmat");
-	        	tab [k][7]= resultatTab.getString("Modele");
-	        	tab [k][8]= resultatTab.getString("DateReserVeh");
-	        	tab [k][9]= resultatTab.getString("DateRetourVeh");
+				tab [k][0]= resultatTab.getString ("IdReservation");  
+				tab [k][1]= resultatTab.getString ("IdEmploye");
+				tab [k][2]= resultatTab.getString ("Matricule");
+	        	tab [k][3]= resultatTab.getString ("Nom");
+	        	tab [k][4]= resultatTab.getString ("Prenom");
+	        	tab [k][5]= resultatTab.getString ("Fonction");
+	        	tab [k][6]= resultatTab.getString ("NumPermis");
+	        	tab [k][7]= resultatTab.getString ("NumImmat");
+	        	tab [k][8]= resultatTab.getString("Modele");
+	        	tab [k][9]= resultatTab.getString("DateReserVeh");
+	        	tab [k][10]= resultatTab.getString("DateRetourVeh");
 	        	k++;
 	        }  while (resultatTab.next());
 	        	       	    	
@@ -189,58 +191,20 @@ public class Controller {
 			
 		}			
 				
-			public static void Update() {
-					Connection BdConnexion= null;
-					System.out.println("dans fonction 2");				
-					try { 
-						BdConnexion = Controller.getConnection();
-						Statement statement3 = BdConnexion.createStatement();													            
-			            String query="SELECT * FROM reservation";						
-					}catch (Exception e) {						
-					}	
-				System.out.println("réservation à jour");
+			public static void UpdateReservation(String IdReservation) {
+				Connection BdConnexion= null;
+				try {				
+		            BdConnexion = Controller.getConnection();
+		            Statement statement3 = BdConnexion.createStatement();// permet d'éxécuter une requête
+		            String query=("UPDATE reservation SET ActivReserv=0 WHERE IdReservation='"+ IdReservation +"';");		            		             		           
+		            statement3.executeUpdate(query);		        	       	    	
+				}catch (Exception e) {
+					e.printStackTrace();
+				}		
+				
 			}
 			
 			
-			/*public static void SupprimerParMatricule (String Matricule) {
-				Connection BdConnexion= null;
-				System.out.println("dans fonction 3");				
-				try { 
-					BdConnexion = Controller.getConnection();
-					Statement statement4 = BdConnexion.createStatement();													            
-		            String query="DELETE FROM reservation WHERE Matricule='"+ Matricule + "';";						
-				}catch (Exception e) {						
-				}	
-			System.out.println("réservation supprimée");
-		}
-			
-			public static void RechercherParNom (String Nom) {
-				Connection BdConnexion= null;
-				System.out.println("dans fonction 4");				
-				try { 
-					BdConnexion = Controller.getConnection();
-					Statement statement5 = BdConnexion.createStatement();													            
-		            String query="SELECT Nom FROM employe WHERE Nom='"+ Nom + "';";						
-				}catch (Exception e) {						
-				}	
-			System.out.println("recherche");
-			}
-	
-			/*public static void RemplirComboBox() {
-				Connection BdConnexion= null;
-				System.out.println("dans fonction");				
-				try { 
-					BdConnexion = Controller.getConnection();
-					Statement statement3 = BdConnexion.createStatement();	
-					ResultSet resultat = statement3.executeQuery("");
-		            String query="SELECT * FROM Vehicule";	
-		            
-		         while (resultat.next());
-		         String idVehicule= resultat.getString ("IdVehicule");		  	
-		         
-				}catch (Exception e) {						
-				}	
-			}*/
 
 }
 
