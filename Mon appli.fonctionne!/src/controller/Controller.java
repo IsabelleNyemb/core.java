@@ -14,16 +14,12 @@ import view.Jemeconnecte;
 
 
 public class Controller {
-	 //JComboBox combobox;
+	
 	 
 		public static void main (String[] args) throws Exception {
-			//getConnection();
-			//(String Matricule, String NumPermis, String NumImmat, String IdReservation, String DateReserVeh, String DateRetourVeh )
+			getConnection();
 			//Controller.AjouterR ( "E024", "MR 1895 765" , "00092516M" , "R10", "2020-04-06" ,  "2020-05-06");			
-			//Controller.Update();
-			//Controller.RemplirComboBox();
-			//Controller.SupprimerReservation("");
-			//Controller.UpdateReservation("SIMO");
+			//Controller.UpdateReservation("R50");
 			ControllerTest.testAjouterR();
 			
 		}
@@ -38,10 +34,8 @@ public class Controller {
 					String password = "Firenze2";
 					Class.forName(driver);				
 					Connection conn = DriverManager.getConnection(url, username, password);
-						//System.out.println("connected");
 						return conn;						
-				}catch (Exception e) {
-				//System.out.println (e);			
+				}catch (Exception e) {		
 					return null;}			
 		}	
 			
@@ -55,10 +49,7 @@ public class Controller {
 	            Statement statement = BdConnexion.createStatement();// permet d'éxécuter une requête
 	            ResultSet resultat = statement.executeQuery( "SELECT idEmploye,Matricule,Nom,Prenom,NumTel,Fonction,NumPermis,ValidAdmin FROM employe WHERE UserName='" + UserName + "' AND MotDePasse='" + PassWord + "';");		            	            	          
 	            resultat.next();
-	            System.out.println(resultat.getRow());
-	            if (resultat.getRow()==1) {		// répéter à chaque demande de données
-	            	System.out.println("après");
-	              //on passe à l'étape suivante		
+	            if (resultat.getRow()==1) {		
 	            	String idEmploye= resultat.getString ("IdEmploye");
 	                String matriculeEmploye = resultat.getString( "Matricule" );	
 	                System.out.println(matriculeEmploye);
@@ -86,17 +77,14 @@ public class Controller {
 			return E;
 		}
 	
-		public static String [][] getReserver(String IdEmploye){ // réservation employé
+		public static String [][] getReserver(String IdEmploye){ 
 			Connection BdConnexion= null;
 			String [][] tab = new String [1][3];
 			try {
 	            BdConnexion = Controller.getConnection();
-	            Statement statement = BdConnexion.createStatement();// permet d'éxécuter une requête
+	            Statement statement = BdConnexion.createStatement();
 	            ResultSet resultat = statement.executeQuery( 
-	            		"SELECT NumImmat, Modele, DateReserVeh FROM reservation INNER JOIN vehicule ON Vehicule_idVehicule=idVehicule WHERE Employe_idEmploye='"+ IdEmploye + "';");	
-	            System.out.println(IdEmploye);
-	           // System.out.println(resultat.getRow());
-	            //System.out.println(resultat.getString ("NumImmat"));            
+	            		"SELECT NumImmat, Modele, DateReserVeh FROM reservation INNER JOIN vehicule ON Vehicule_idVehicule=idVehicule WHERE Employe_idEmploye='"+ IdEmploye + "';");	          
 	            if(resultat.next()){
 	            	tab [0][0]= resultat.getString ("NumImmat");
 	            	tab [0][1]= resultat.getString("Modele");
@@ -104,7 +92,6 @@ public class Controller {
 	            }	          
 	          
 			 } catch (Exception e) {
-		        	//System.out.println (e.getMessage());
 					e.printStackTrace();
 				} finally {
 		            if ( BdConnexion != null )		            
@@ -117,19 +104,17 @@ public class Controller {
 			return tab;
 		}
 		         
-		public static String [][] getGestionnaire(){ //gérer les réservations
+		public static String [][] getGestionnaire(){ 
 			Connection BdConnexion= null;
 			String [][] tab = new String [1][7];
 			try {				
 	            BdConnexion = Controller.getConnection();
-	            Statement statement1 = BdConnexion.createStatement();// permet d'éxécuter une requête
-	            ResultSet resultatTab = statement1.executeQuery("SELECT IdReservation, idEmploye,Matricule,Nom,Prenom,Fonction,NumPermis,NumImmat,Modele,DateReserVeh,DateRetourVeh FROM reservation INNER JOIN  vehicule on Vehicule_idVehicule = idVehicule INNER JOIN employe ON Employe_idEmploye= idEmploye WHERE ActivReserv='"+ 1 +"';");
-	            
+	            Statement statement1 = BdConnexion.createStatement();
+	            ResultSet resultatTab = statement1.executeQuery("SELECT IdReservation, idEmploye,Matricule,Nom,Prenom,Fonction,NumPermis,NumImmat,Modele,DateReserVeh,DateRetourVeh FROM reservation INNER JOIN  vehicule on Vehicule_idVehicule = idVehicule INNER JOIN employe ON Employe_idEmploye= idEmploye WHERE ActivReserv='"+ 1 +"';");	            
 	            resultatTab.last();           
 	            int compteur =resultatTab.getRow();
 	            int k = 0;
 			tab = new String [compteur][11];
-			System.out.println(compteur);
 			  resultatTab.first();
 			  do { 
 				tab [k][0]= resultatTab.getString ("IdReservation");  
@@ -162,26 +147,20 @@ public class Controller {
 		
 			public static void AjouterR (String Matricule, String NumPermis, String NumImmat, String IdReservation, String DateReserVeh, String DateRetourVeh ) {
 				Connection BdConnexion= null;
-				System.out.println("dans fonction");
-				
 				try { 
 					BdConnexion = Controller.getConnection();
 					Statement statement2 = BdConnexion.createStatement();						
 					ResultSet resultat1 = statement2.executeQuery ("SELECT IdEmploye FROM employe WHERE  Matricule='" + Matricule + "' AND NumPermis='"+ NumPermis +"';");
 					resultat1.next();
 					String idEmploye= resultat1.getString ("IdEmploye");
-		            System.out.println ("id employé: " + idEmploye);	
 		            
 		            ResultSet resultat2 = statement2.executeQuery("SELECT idVehicule FROM vehicule WHERE NumImmat='" +NumImmat+ "';");			            				 			            					           								            
 		            resultat2.next();
 		            String idVehicule= resultat2.getString ("IdVehicule");
-		            System.out.println ("Id vehicule :" + idVehicule);
 		            
 		            if(!idEmploye.isEmpty() && !idVehicule.isEmpty()){
 		            	String query="INSERT INTO reservation(IdReservation, DateReserVeh, DateRetourVeh, Vehicule_idVehicule, Employe_idEmploye) VALUES ('"+IdReservation+"','"+ DateReserVeh +"','"+DateRetourVeh+"','"+ idVehicule +"','"+ idEmploye+"');";											  						  						
-			            int R = statement2.executeUpdate(query);
-			            System.out.println (R);
-						System.out.println ("reservation ajoutée");						
+			            int R = statement2.executeUpdate(query);					
 		            }	          			            
 		            											
 					

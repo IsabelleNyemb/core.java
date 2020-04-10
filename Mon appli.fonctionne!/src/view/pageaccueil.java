@@ -91,16 +91,16 @@ public class pageaccueil {
 		JLabel textMotDePasse = new JLabel("MotDePasse");
 		textMotDePasse.setFont(new Font("Sitka Text", Font.BOLD, 18));
 		textMotDePasse.setBackground(Color.WHITE);
-		textMotDePasse.setBounds(34, 186, 120, 20);
+		textMotDePasse.setBounds(35, 200, 120, 20);
 		frame.getContentPane().add(textMotDePasse);
 		
 		CaseUserName = new JTextField();
-		CaseUserName.setBounds(228, 115, 212, 26);
+		CaseUserName.setBounds(217, 115, 223, 26);
 		frame.getContentPane().add(CaseUserName);
 		CaseUserName.setColumns(10);
 		
 		CaseMDP = new JPasswordField();
-		CaseMDP.setBounds(222, 186, 212, 26);
+		CaseMDP.setBounds(228, 196, 212, 26);
 		frame.getContentPane().add(CaseMDP);
 		
 		JButton btnLogin = new JButton("Login");
@@ -122,7 +122,7 @@ public class pageaccueil {
 			}
 		});
 		btnLogin.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnLogin.setBounds(389, 275, 89, 29);
+		btnLogin.setBounds(404, 378, 89, 29);
 		frame.getContentPane().add(btnLogin);
 		
 		JButton btnReset = new JButton("Reset");
@@ -137,7 +137,7 @@ public class pageaccueil {
 						
 		});
 		btnReset.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnReset.setBounds(224, 275, 97, 29);
+		btnReset.setBounds(228, 378, 97, 29);
 		frame.getContentPane().add(btnReset);
 		
 		JButton btnExit = new JButton("Exit");
@@ -149,7 +149,7 @@ public class pageaccueil {
 		});
 		btnExit.setBackground(Color.RED);
 		btnExit.setFont(new Font("Sitka Text", Font.BOLD, 18));
-		btnExit.setBounds(50, 275, 81, 29);
+		btnExit.setBounds(50, 378, 81, 29);
 		frame.getContentPane().add(btnExit);
 		
 		JSeparator separator = new JSeparator();
@@ -164,24 +164,11 @@ public class pageaccueil {
 		separator_2.setBounds(0, 182, 1, 2);
 		frame.getContentPane().add(separator_2);
 		
-		JButton btnRegister = new JButton("Create a new account");
-		btnRegister.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new Register();
-				frame.dispose();								
-			}			
-			
-		});
-		btnRegister.setBackground(Color.LIGHT_GRAY);
-		btnRegister.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
-		btnRegister.setBounds(175, 400, 193, 29);
-		frame.getContentPane().add(btnRegister);	
-		
 		JLabel lblNewLabel_1 = new JLabel("New label");
 		lblNewLabel_1.setIcon(new ImageIcon(pageaccueil.class.getResource("/icons/JiMIZ0LpuTRpT3WzDCa4lIYOPBFSBNya5VXmnya0.jpeg")));
 		lblNewLabel_1.setBounds(0, 0, 563, 509);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		frame.setVisible(true);// la page d'accueil se ferme quand on ouvre le register
+		frame.setVisible(true);
 	}
 	}

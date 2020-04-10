@@ -45,7 +45,6 @@ import javax.swing.JScrollBar;
 public class GestionnaireFlotte {
 
 	private JFrame frame;
-	//JComboBox combobox;
 	private JTextField MatriculeR;
 	private JTextField NumPermisR;
 	private JTextField IdReservationR;
@@ -293,8 +292,7 @@ public class GestionnaireFlotte {
 				Error.setVisible(false);
 				Success.setVisible(false);
 			}	
-			
-			
+						
 		});
 		panel_1.add(btnRefresh);
 		btnRefresh.setIcon(new ImageIcon(GestionnaireFlotte.class.getResource("/icons/refresh_arrow_1546.png")));

@@ -34,8 +34,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.BoxLayout;
 
 public class Jemeconnecte {
-	private Employe itsMe= new Employe();// pour relier je me connecte à la classe employé et qu'il reconnaisse lors de la connexion
-
+	private Employe itsMe= new Employe();
 	private JFrame frame;
 	private JTable ListeResa;
 			
