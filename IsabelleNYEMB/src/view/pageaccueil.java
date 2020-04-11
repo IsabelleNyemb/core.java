@@ -100,7 +100,7 @@ public class pageaccueil {
 		CaseUserName.setColumns(10);
 		
 		CaseMDP = new JPasswordField();
-		CaseMDP.setBounds(228, 196, 212, 26);
+		CaseMDP.setBounds(217, 196, 223, 26);
 		frame.getContentPane().add(CaseMDP);
 		
 		JButton btnLogin = new JButton("Login");
